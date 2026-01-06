@@ -1,0 +1,26 @@
+{
+  "breakdowns": [
+    {
+      "id": "manage_user_accounts",
+      "header": "Manage User Accounts",
+      "description": "Enables adding new users, updating user email addresses, deactivating user accounts, and maintaining a collection of users. Ensures user data can be modified while enforcing validation rules.",
+      "conditions": [
+        "Usernames must be unique (no duplicates allowed)",
+        "User age must be within the range 0-150"
+      ],
+      "change_status": "new"
+    },
+    {
+      "id": "analyze_user_statistics",
+      "header": "Analyze User Statistics",
+      "description": "Provides statistical analysis of users, including calculating the average age of active users and categorizing users into age groups (youth, adult, senior). Statistics are based on active users only.",
+      "conditions": [
+        "Average age and age group categorization apply only to active users",
+        "Age groups: youth (0-17), adult (18-64), senior (65+)"
+      ],
+      "change_status": "new"
+    }
+  ],
+  "last_updated": "2026-01-06T15:10:35.068478",
+  "version": "1.0"
+}
