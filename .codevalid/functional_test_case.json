@@ -1,0 +1,1244 @@
+{
+  "function": [
+    {
+      "implementation_id": "main_entry_point",
+      "test_cases": [
+        {
+          "id": "main_add_multiple_users_positive",
+          "name": "test_add_multiple_users_success",
+          "description": "Verify that multiple users can be added successfully and statistics reflect the correct user count.",
+          "type": "positive",
+          "test_setup": {
+            "given": "A fresh UserManager and UserStatistics instance.",
+            "when": "main() is called, which adds several valid users.",
+            "then": "All users are present in the collection and statistics show the correct total and active user count."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_add_user_duplicate_email_negative",
+          "name": "test_add_user_duplicate_email",
+          "description": "Ensure that adding a user with an email already in use is rejected and statistics remain unchanged.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A UserManager with an existing user with email 'user1@example.com'.",
+            "when": "main() attempts to add another user with the same email.",
+            "then": "The duplicate user is not added, an error is raised or logged, and statistics are unchanged."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_add_user_invalid_email_negative",
+          "name": "test_add_user_invalid_email",
+          "description": "Ensure that adding a user with an invalid email format is rejected.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A fresh UserManager.",
+            "when": "main() attempts to add a user with email 'invalid-email'.",
+            "then": "The user is not added, an error is raised or logged, and statistics remain unchanged."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_deactivate_user_positive",
+          "name": "test_deactivate_user_success",
+          "description": "Verify that deactivating a user updates their status and statistics correctly.",
+          "type": "positive",
+          "test_setup": {
+            "given": "A UserManager with several active users.",
+            "when": "main() deactivates one user.",
+            "then": "The user's status is set to inactive and statistics reflect one less active user."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_deactivate_user_already_inactive_edge",
+          "name": "test_deactivate_user_already_inactive",
+          "description": "Ensure that deactivating an already inactive user does not change statistics or raise errors.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A UserManager with a user already marked as inactive.",
+            "when": "main() attempts to deactivate the same user again.",
+            "then": "No changes occur and no errors are raised."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_deactivate_user_nonexistent_negative",
+          "name": "test_deactivate_user_nonexistent",
+          "description": "Ensure that attempting to deactivate a non-existent user is handled gracefully.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A UserManager with no user having id '999'.",
+            "when": "main() attempts to deactivate user with id '999'.",
+            "then": "An error is raised or logged, and statistics remain unchanged."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_update_user_email_positive",
+          "name": "test_update_user_email_success",
+          "description": "Verify that updating a user's email to a new valid email works and user info is updated.",
+          "type": "positive",
+          "test_setup": {
+            "given": "A UserManager with a user 'user1' and a valid new email.",
+            "when": "main() updates 'user1's email to 'new_email@example.com'.",
+            "then": "The user's email is updated and reflected in user info."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_update_user_email_to_existing_negative",
+          "name": "test_update_user_email_to_existing",
+          "description": "Ensure that updating a user's email to one already in use is rejected.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A UserManager with users 'user1' and 'user2', both with unique emails.",
+            "when": "main() attempts to update 'user1's email to 'user2's email.",
+            "then": "The update is rejected, an error is raised or logged, and user info is unchanged."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_update_user_email_invalid_format_negative",
+          "name": "test_update_user_email_invalid_format",
+          "description": "Ensure that updating a user's email to an invalid format is rejected.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A UserManager with a user 'user1'.",
+            "when": "main() attempts to update 'user1's email to 'invalid-email'.",
+            "then": "The update is rejected, an error is raised or logged, and user info is unchanged."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_update_user_email_nonexistent_user_negative",
+          "name": "test_update_user_email_nonexistent_user",
+          "description": "Ensure that updating the email of a non-existent user is handled gracefully.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A UserManager with no user having id '999'.",
+            "when": "main() attempts to update email for user id '999'.",
+            "then": "An error is raised or logged, and no changes occur."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_statistics_after_operations_edge",
+          "name": "test_statistics_after_operations",
+          "description": "Verify that statistics are accurate after a sequence of add, deactivate, and update operations.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A fresh UserManager and UserStatistics.",
+            "when": "main() adds users, deactivates one, and updates an email.",
+            "then": "Statistics reflect the correct total, active, and inactive user counts."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_add_user_minimal_data_edge",
+          "name": "test_add_user_minimal_data",
+          "description": "Test adding a user with minimal valid data (e.g., shortest allowed username and valid email).",
+          "type": "edge",
+          "test_setup": {
+            "given": "A fresh UserManager.",
+            "when": "main() adds a user with the shortest allowed username and a valid email.",
+            "then": "The user is added successfully and statistics are updated."
+          },
+          "implementation_id": "main_entry_point"
+        },
+        {
+          "id": "main_add_user_maximal_data_edge",
+          "name": "test_add_user_maximal_data",
+          "description": "Test adding a user with maximal allowed data (e.g., longest allowed username and valid email).",
+          "type": "edge",
+          "test_setup": {
+            "given": "A fresh UserManager.",
+            "when": "main() adds a user with the longest allowed username and a valid email.",
+            "then": "The user is added successfully and statistics are updated."
+          },
+          "implementation_id": "main_entry_point"
+        }
+      ]
+    },
+    {
+      "implementation_id": "user_manager_add_user",
+      "test_cases": [
+        {
+          "id": "add_user_success_new_user",
+          "name": "test_add_user_success_new_user",
+          "description": "Successfully adds a new user with a unique username and valid age.",
+          "type": "positive",
+          "test_setup": {
+            "given": "users = {}; username = 'alice'; email = 'alice@example.com'; age = 30",
+            "when": "add_user(username, email, age) is called",
+            "then": "Returns True; users contains 'alice' with correct email, age, and active=True"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_duplicate_username",
+          "name": "test_add_user_duplicate_username",
+          "description": "Fails to add a user when the username already exists.",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'bob': {'email': 'bob@example.com', 'age': 40, 'active': True}}; username = 'bob'; email = 'bob2@example.com'; age = 25",
+            "when": "add_user(username, email, age) is called",
+            "then": "Raises error for duplicate username; users remains unchanged"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_age_below_zero",
+          "name": "test_add_user_age_below_zero",
+          "description": "Fails to add a user when age is less than 0.",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {}; username = 'charlie'; email = 'charlie@example.com'; age = -1",
+            "when": "add_user(username, email, age) is called",
+            "then": "Raises error for invalid age; users remains unchanged"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_age_above_150",
+          "name": "test_add_user_age_above_150",
+          "description": "Fails to add a user when age is greater than 150.",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {}; username = 'dave'; email = 'dave@example.com'; age = 151",
+            "when": "add_user(username, email, age) is called",
+            "then": "Raises error for invalid age; users remains unchanged"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_age_zero",
+          "name": "test_add_user_age_zero",
+          "description": "Successfully adds a user with age at the lower boundary (0).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}; username = 'eve'; email = 'eve@example.com'; age = 0",
+            "when": "add_user(username, email, age) is called",
+            "then": "Returns True; users contains 'eve' with correct email, age=0, and active=True"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_age_150",
+          "name": "test_add_user_age_150",
+          "description": "Successfully adds a user with age at the upper boundary (150).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}; username = 'frank'; email = 'frank@example.com'; age = 150",
+            "when": "add_user(username, email, age) is called",
+            "then": "Returns True; users contains 'frank' with correct email, age=150, and active=True"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_username_empty_string",
+          "name": "test_add_user_username_empty_string",
+          "description": "Attempts to add a user with an empty string as username.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}; username = ''; email = 'empty@example.com'; age = 25",
+            "when": "add_user(username, email, age) is called",
+            "then": "Raises error for duplicate username if '' exists, otherwise adds user with empty username"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_email_empty_string",
+          "name": "test_add_user_email_empty_string",
+          "description": "Adds a user with an empty string as email (assuming no email validation).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}; username = 'gina'; email = ''; age = 25",
+            "when": "add_user(username, email, age) is called",
+            "then": "Returns True; users contains 'gina' with email='', age=25, and active=True"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_minimal_valid_age",
+          "name": "test_add_user_minimal_valid_age",
+          "description": "Adds a user with the minimal valid age (0).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}; username = 'hank'; email = 'hank@example.com'; age = 0",
+            "when": "add_user(username, email, age) is called",
+            "then": "Returns True; users contains 'hank' with correct email, age=0, and active=True"
+          },
+          "implementation_id": "user_manager_add_user"
+        },
+        {
+          "id": "add_user_maximal_valid_age",
+          "name": "test_add_user_maximal_valid_age",
+          "description": "Adds a user with the maximal valid age (150).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}; username = 'ivy'; email = 'ivy@example.com'; age = 150",
+            "when": "add_user(username, email, age) is called",
+            "then": "Returns True; users contains 'ivy' with correct email, age=150, and active=True"
+          },
+          "implementation_id": "user_manager_add_user"
+        }
+      ]
+    },
+    {
+      "implementation_id": "user_manager_update_user_email",
+      "test_cases": [
+        {
+          "id": "update_email_success_existing_user",
+          "name": "Update email for existing user",
+          "description": "Successfully updates the email address for an existing user.",
+          "type": "positive",
+          "test_setup": {
+            "given": "A users dictionary containing {'alice': {'email': 'old@example.com'}} and username='alice', new_email='new@example.com'",
+            "when": "update_user_email('alice', 'new@example.com') is called",
+            "then": "Returns True and users['alice']['email'] is updated to 'new@example.com'"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_user_not_found",
+          "name": "Update email for non-existent user",
+          "description": "Raises an error when attempting to update the email of a user that does not exist.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A users dictionary containing {'bob': {'email': 'bob@example.com'}} and username='charlie', new_email='charlie@example.com'",
+            "when": "update_user_email('charlie', 'charlie@example.com') is called",
+            "then": "Raises a 'user not found' error"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_empty_username",
+          "name": "Update email with empty username",
+          "description": "Raises an error when the username provided is an empty string.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary containing {'bob': {'email': 'bob@example.com'}} and username='', new_email='empty@example.com'",
+            "when": "update_user_email('', 'empty@example.com') is called",
+            "then": "Raises a 'user not found' error"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_empty_email",
+          "name": "Update email with empty new_email",
+          "description": "Updates the user's email to an empty string if allowed by validation rules.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary containing {'dave': {'email': 'dave@example.com'}} and username='dave', new_email=''",
+            "when": "update_user_email('dave', '') is called",
+            "then": "Returns True and users['dave']['email'] is updated to ''"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_same_as_current",
+          "name": "Update email to the same value",
+          "description": "Updates the user's email to the same value as the current one (should still return True).",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary containing {'eve': {'email': 'eve@example.com'}} and username='eve', new_email='eve@example.com'",
+            "when": "update_user_email('eve', 'eve@example.com') is called",
+            "then": "Returns True and users['eve']['email'] remains 'eve@example.com'"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_special_characters",
+          "name": "Update email with special characters",
+          "description": "Updates the user's email to a value containing special characters.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary containing {'frank': {'email': 'frank@example.com'}} and username='frank', new_email='frank+test@ex-ample.com'",
+            "when": "update_user_email('frank', 'frank+test@ex-ample.com') is called",
+            "then": "Returns True and users['frank']['email'] is updated to 'frank+test@ex-ample.com'"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_case_sensitivity",
+          "name": "Update email for username with different case",
+          "description": "Checks if the username lookup is case-sensitive by attempting to update with a different case.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary containing {'Grace': {'email': 'grace@example.com'}} and username='grace', new_email='grace@new.com'",
+            "when": "update_user_email('grace', 'grace@new.com') is called",
+            "then": "Raises a 'user not found' error if lookup is case-sensitive"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        },
+        {
+          "id": "update_email_none_email",
+          "name": "Update email with None as new_email",
+          "description": "Attempts to update the user's email to None (should handle according to validation rules).",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary containing {'henry': {'email': 'henry@example.com'}} and username='henry', new_email=None",
+            "when": "update_user_email('henry', None) is called",
+            "then": "Returns True and users['henry']['email'] is updated to None, or raises a validation error if not allowed"
+          },
+          "implementation_id": "user_manager_update_user_email"
+        }
+      ]
+    },
+    {
+      "implementation_id": "user_manager_deactivate_user",
+      "test_cases": [
+        {
+          "id": "deactivate_user_positive_existing_user",
+          "name": "test_deactivate_existing_user",
+          "description": "Deactivates an existing user and verifies the active status is set to False and the function returns True.",
+          "type": "positive",
+          "test_setup": {
+            "given": "A users collection containing a user with username 'alice' and active status True.",
+            "when": "deactivate_user('alice') is called.",
+            "then": "The function returns True and users['alice'].active is False."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_negative_user_not_found",
+          "name": "test_deactivate_nonexistent_user",
+          "description": "Attempts to deactivate a user that does not exist and expects an error to be raised.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A users collection with no entry for username 'bob'.",
+            "when": "deactivate_user('bob') is called.",
+            "then": "An error (user not found) is raised."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_edge_already_inactive",
+          "name": "test_deactivate_already_inactive_user",
+          "description": "Deactivates a user who is already inactive and verifies the function still returns True and the status remains False.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users collection containing a user with username 'carol' and active status False.",
+            "when": "deactivate_user('carol') is called.",
+            "then": "The function returns True and users['carol'].active remains False."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_edge_empty_username",
+          "name": "test_deactivate_empty_username",
+          "description": "Attempts to deactivate a user with an empty string as the username and expects an error.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users collection with valid users, but no user with an empty username.",
+            "when": "deactivate_user('') is called.",
+            "then": "An error (user not found) is raised."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_edge_username_case_sensitivity",
+          "name": "test_deactivate_username_case_sensitivity",
+          "description": "Checks if the function treats usernames as case-sensitive by attempting to deactivate a user with different casing.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users collection containing a user with username 'Dave' (capital D), but not 'dave' (lowercase d).",
+            "when": "deactivate_user('dave') is called.",
+            "then": "An error (user not found) is raised."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_edge_special_characters",
+          "name": "test_deactivate_username_with_special_characters",
+          "description": "Attempts to deactivate a user with special characters in the username.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users collection containing a user with username 'eve_123!'.",
+            "when": "deactivate_user('eve_123!') is called.",
+            "then": "The function returns True and users['eve_123!'].active is False."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_edge_large_user_collection",
+          "name": "test_deactivate_user_large_collection",
+          "description": "Deactivates a user in a large users collection to ensure performance and correctness.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users collection with 10,000 users, including 'frank'.",
+            "when": "deactivate_user('frank') is called.",
+            "then": "The function returns True and users['frank'].active is False."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        },
+        {
+          "id": "deactivate_user_edge_username_is_none",
+          "name": "test_deactivate_username_is_none",
+          "description": "Attempts to deactivate a user with None as the username and expects an error.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users collection with valid users, but no user with username None.",
+            "when": "deactivate_user(None) is called.",
+            "then": "An error (user not found) is raised."
+          },
+          "implementation_id": "user_manager_deactivate_user"
+        }
+      ]
+    },
+    {
+      "implementation_id": "user_manager_get_active_users",
+      "test_cases": [
+        {
+          "id": "active_users_some_active",
+          "name": "test_some_users_active",
+          "description": "Returns only usernames of users whose 'active' field is True.",
+          "type": "positive",
+          "test_setup": {
+            "given": "users = {'alice': {'active': true}, 'bob': {'active': false}, 'carol': {'active': true}}",
+            "when": "get_active_users(users) is called",
+            "then": "['alice', 'carol']"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_all_active",
+          "name": "test_all_users_active",
+          "description": "Returns all usernames when all users are active.",
+          "type": "positive",
+          "test_setup": {
+            "given": "users = {'alice': {'active': true}, 'bob': {'active': true}}",
+            "when": "get_active_users(users) is called",
+            "then": "['alice', 'bob']"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_none_active",
+          "name": "test_no_users_active",
+          "description": "Returns an empty list when no users are active.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {'alice': {'active': false}, 'bob': {'active': false}}",
+            "when": "get_active_users(users) is called",
+            "then": "[]"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_empty_dict",
+          "name": "test_empty_users_dict",
+          "description": "Returns an empty list when the users dictionary is empty.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}",
+            "when": "get_active_users(users) is called",
+            "then": "[]"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_missing_active_field",
+          "name": "test_missing_active_field",
+          "description": "Handles users whose data dict does not contain the 'active' field (should not include them).",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'alice': {'active': true}, 'bob': {}, 'carol': {'active': false}}",
+            "when": "get_active_users(users) is called",
+            "then": "['alice']"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_active_is_none",
+          "name": "test_active_field_is_none",
+          "description": "Handles users whose 'active' field is None (should not include them).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {'alice': {'active': null}, 'bob': {'active': true}}",
+            "when": "get_active_users(users) is called",
+            "then": "['bob']"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_active_is_string",
+          "name": "test_active_field_is_string",
+          "description": "Handles users whose 'active' field is a string (should not include them unless the string is exactly true boolean).",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'alice': {'active': 'True'}, 'bob': {'active': true}}",
+            "when": "get_active_users(users) is called",
+            "then": "['bob']"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_non_dict_user_data",
+          "name": "test_non_dict_user_data",
+          "description": "Handles users whose data is not a dict (should not include them).",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'alice': {'active': true}, 'bob': 'active', 'carol': 123}",
+            "when": "get_active_users(users) is called",
+            "then": "['alice']"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_large_number_of_users",
+          "name": "test_large_number_of_users",
+          "description": "Handles a large number of users efficiently and correctly.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {f'user{i}': {'active': i % 2 == 0} for i in range(1000)}",
+            "when": "get_active_users(users) is called",
+            "then": "List of usernames where i is even (e.g., ['user0', 'user2', ..., 'user998'])"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        },
+        {
+          "id": "active_users_active_field_is_falsey",
+          "name": "test_active_field_is_falsey",
+          "description": "Handles users whose 'active' field is a falsey value other than False (should not include them).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {'alice': {'active': 0}, 'bob': {'active': ''}, 'carol': {'active': false}}",
+            "when": "get_active_users(users) is called",
+            "then": "[]"
+          },
+          "implementation_id": "user_manager_get_active_users"
+        }
+      ]
+    },
+    {
+      "implementation_id": "main-sequence",
+      "test_cases": [
+        {
+          "id": "main_positive_multiple_active_users",
+          "name": "test_average_age_and_groups_multiple_active_users",
+          "description": "Verify average age and age group statistics with multiple active users of varying ages.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add three users: Alice (age 20), Bob (age 35), Carol (age 70), all active.",
+            "when": "main() is called, statistics are printed.",
+            "then": "Average age is (20+35+70)/3=41.67. Age groups: 1 youth (<=25), 1 adult (26-64), 1 senior (>=65)."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_positive_deactivate_user",
+          "name": "test_statistics_after_deactivating_user",
+          "description": "Verify statistics update correctly after deactivating a user.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add Alice (20, active), Bob (35, active), Carol (70, active).",
+            "when": "Deactivate Bob. main() prints updated statistics.",
+            "then": "Average age is (20+70)/2=45. Age groups: 1 youth, 0 adult, 1 senior."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_edge_no_users",
+          "name": "test_no_users",
+          "description": "Verify behavior when no users are present.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. No users are added.",
+            "when": "main() is called.",
+            "then": "Average age is 0 or None. All age groups are 0."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_edge_all_users_deactivated",
+          "name": "test_all_users_deactivated",
+          "description": "Verify statistics when all users are deactivated.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add Alice (20), Bob (35), Carol (70). Deactivate all users.",
+            "when": "main() prints statistics.",
+            "then": "Average age is 0 or None. All age groups are 0."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_edge_single_user_each_group",
+          "name": "test_single_user_each_age_group",
+          "description": "Verify statistics with one user in each age group.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add Dave (25, youth), Eve (26, adult), Frank (65, adult), Grace (66, senior). All active.",
+            "when": "main() is called.",
+            "then": "Average age is (25+26+65+66)/4=45.5. Age groups: 1 youth, 2 adults, 1 senior."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_edge_boundary_ages",
+          "name": "test_age_group_boundaries",
+          "description": "Test users at the exact boundaries of age groups.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add Henry (25), Ivy (26), Jack (64), Kate (65). All active.",
+            "when": "main() is called.",
+            "then": "Age groups: Henry (youth), Ivy and Jack (adults), Kate (senior)."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_negative_deactivate_nonexistent_user",
+          "name": "test_deactivate_nonexistent_user",
+          "description": "Attempt to deactivate a user that does not exist.",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add Alice (20), Bob (35).",
+            "when": "Attempt to deactivate user with id or name not present.",
+            "then": "No change in statistics. No error or handled error message."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_negative_add_user_with_invalid_age",
+          "name": "test_add_user_with_invalid_age",
+          "description": "Attempt to add a user with an invalid age (negative or non-integer).",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized.",
+            "when": "Add user with age -5 or 'twenty'.",
+            "then": "User is not added. Statistics remain unchanged. Error is handled gracefully."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_edge_all_users_same_age_group",
+          "name": "test_all_users_same_age_group",
+          "description": "All users belong to the same age group.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add three users: ages 30, 40, 50 (all adults).",
+            "when": "main() is called.",
+            "then": "Average age is 40. Age groups: 0 youth, 3 adults, 0 seniors."
+          },
+          "implementation_id": "main-sequence"
+        },
+        {
+          "id": "main_edge_deactivate_last_active_user",
+          "name": "test_deactivate_last_active_user",
+          "description": "Deactivate the last active user and verify statistics.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager and UserStatistics are initialized. Add Alice (20, active), Bob (35, deactivated).",
+            "when": "Deactivate Alice. main() prints statistics.",
+            "then": "Average age is 0 or None. All age groups are 0."
+          },
+          "implementation_id": "main-sequence"
+        }
+      ]
+    },
+    {
+      "implementation_id": "userstatistics-get_average_age",
+      "test_cases": [
+        {
+          "id": "average_age_multiple_active_users",
+          "name": "test_average_age_multiple_active_users",
+          "description": "Calculates the average age when multiple active users are present.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns three active users with ages 20, 30, and 40.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 30.0"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_single_active_user",
+          "name": "test_average_age_single_active_user",
+          "description": "Calculates the average age when only one active user is present.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns one active user with age 25.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 25.0"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_no_active_users",
+          "name": "test_average_age_no_active_users",
+          "description": "Returns 0 when there are no active users.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager returns an empty list of active users.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 0"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_all_same_age",
+          "name": "test_average_age_all_same_age",
+          "description": "Calculates the average age when all active users have the same age.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns five active users, all aged 50.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 50.0"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_with_zero_age_user",
+          "name": "test_average_age_with_zero_age_user",
+          "description": "Calculates the average age when one of the active users has age 0.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager returns two active users with ages 0 and 40.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 20.0"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_with_negative_age_user",
+          "name": "test_average_age_with_negative_age_user",
+          "description": "Handles negative age values in active users.",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager returns two active users with ages -10 and 30.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 10.0 or raises a ValueError if negative ages are not allowed"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_with_non_integer_ages",
+          "name": "test_average_age_with_non_integer_ages",
+          "description": "Calculates the average age when user ages are floats.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns two active users with ages 22.5 and 27.5.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 25.0"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_user_data_missing_age",
+          "name": "test_average_age_user_data_missing_age",
+          "description": "Handles missing age field in user data.",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager returns one active user whose data does not include an age field.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Raises a KeyError or skips the user depending on implementation"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_user_manager_raises_exception",
+          "name": "test_average_age_user_manager_raises_exception",
+          "description": "Handles exception raised by UserManager when retrieving active users.",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager.get_active_users() raises an exception.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Propagates the exception or returns 0 depending on implementation"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        },
+        {
+          "id": "average_age_large_number_of_users",
+          "name": "test_average_age_large_number_of_users",
+          "description": "Calculates the average age with a large number of active users to test performance and correctness.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager returns 10,000 active users with ages ranging from 1 to 10,000.",
+            "when": "UserStatistics.get_average_age() is called",
+            "then": "Returns 5000.5"
+          },
+          "implementation_id": "userstatistics-get_average_age"
+        }
+      ]
+    },
+    {
+      "implementation_id": "userstatistics-get_user_count_by_age_group",
+      "test_cases": [
+        {
+          "id": "test_all_age_groups_present",
+          "name": "All age groups present",
+          "description": "Verifies correct categorization and counting when active users span all age groups: youth (<18), adult (18-64), and senior (65+).",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns active users with ages 15, 30, and 70.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 1, \"adult\": 1, \"senior\": 1}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_no_active_users",
+          "name": "No active users",
+          "description": "Checks that the function returns zero counts for all groups when there are no active users.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager returns an empty list of active users.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 0, \"adult\": 0, \"senior\": 0}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_all_youth",
+          "name": "All users are youth",
+          "description": "Ensures all users under 18 are counted as youth and other groups are zero.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns active users with ages 10, 12, 17.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 3, \"adult\": 0, \"senior\": 0}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_all_adults",
+          "name": "All users are adults",
+          "description": "Ensures all users aged 18 to 64 are counted as adults and other groups are zero.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns active users with ages 18, 35, 64.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 0, \"adult\": 3, \"senior\": 0}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_all_seniors",
+          "name": "All users are seniors",
+          "description": "Ensures all users aged 65 and above are counted as seniors and other groups are zero.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns active users with ages 65, 80, 90.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 0, \"adult\": 0, \"senior\": 3}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_boundary_ages",
+          "name": "Boundary ages for groups",
+          "description": "Tests users at the exact boundary ages (17, 18, 64, 65) to ensure correct group assignment.",
+          "type": "edge",
+          "test_setup": {
+            "given": "UserManager returns active users with ages 17, 18, 64, 65.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 1, \"adult\": 2, \"senior\": 1}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_inactive_users_ignored",
+          "name": "Inactive users are ignored",
+          "description": "Ensures only active users are counted, ignoring inactive users.",
+          "type": "positive",
+          "test_setup": {
+            "given": "UserManager returns active users with ages 20, 70. There are also inactive users with ages 15, 80.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "{\"youth\": 0, \"adult\": 1, \"senior\": 1}"
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_missing_age_field",
+          "name": "User missing age field",
+          "description": "Checks behavior when a user record is missing the age field (should skip or handle gracefully).",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager returns active users, one with age 25, one with no age field.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "User without age is ignored; result is {\"youth\": 0, \"adult\": 1, \"senior\": 0} or function handles gracefully without error."
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_age_is_none",
+          "name": "User age is None",
+          "description": "Checks behavior when a user's age is None (should skip or handle gracefully).",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager returns active users, one with age 40, one with age None.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "User with age None is ignored; result is {\"youth\": 0, \"adult\": 1, \"senior\": 0} or function handles gracefully without error."
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_age_is_negative",
+          "name": "User age is negative",
+          "description": "Checks behavior when a user's age is negative (should skip or handle gracefully).",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager returns active users, one with age -5, one with age 30.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "User with negative age is ignored; result is {\"youth\": 0, \"adult\": 1, \"senior\": 0} or function handles gracefully without error."
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        },
+        {
+          "id": "test_age_is_non_integer",
+          "name": "User age is non-integer",
+          "description": "Checks behavior when a user's age is a non-integer value (e.g., string or float).",
+          "type": "negative",
+          "test_setup": {
+            "given": "UserManager returns active users, one with age 'twenty', one with age 22.5, one with age 40.",
+            "when": "get_user_count_by_age_group is called",
+            "then": "Users with invalid age types are ignored; result is {\"youth\": 0, \"adult\": 1, \"senior\": 0} or function handles gracefully without error."
+          },
+          "implementation_id": "userstatistics-get_user_count_by_age_group"
+        }
+      ]
+    },
+    {
+      "implementation_id": "usermanager-get_active_users",
+      "test_cases": [
+        {
+          "id": "active_users_some_active",
+          "name": "test_some_users_active",
+          "description": "Returns usernames of users marked as active when some users are active and some are inactive.",
+          "type": "positive",
+          "test_setup": {
+            "given": "users = {'alice': {'active': True}, 'bob': {'active': False}, 'carol': {'active': True}}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "['alice', 'carol']"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_all_active",
+          "name": "test_all_users_active",
+          "description": "Returns all usernames when all users are marked as active.",
+          "type": "positive",
+          "test_setup": {
+            "given": "users = {'alice': {'active': True}, 'bob': {'active': True}}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "['alice', 'bob']"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_none_active",
+          "name": "test_no_users_active",
+          "description": "Returns an empty list when no users are marked as active.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {'alice': {'active': False}, 'bob': {'active': False}}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "[]"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_empty_dict",
+          "name": "test_empty_users_dict",
+          "description": "Returns an empty list when the users dictionary is empty.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "[]"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_missing_active_key",
+          "name": "test_user_missing_active_key",
+          "description": "Handles users missing the 'active' key gracefully (should not be included as active).",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'alice': {}, 'bob': {'active': True}}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "['bob']"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_non_boolean_active",
+          "name": "test_non_boolean_active_value",
+          "description": "Handles non-boolean values for 'active' key (should only include users where 'active' is True).",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'alice': {'active': 'yes'}, 'bob': {'active': 1}, 'carol': {'active': True}}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "['carol']"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_large_number",
+          "name": "test_large_number_of_users",
+          "description": "Handles a large number of users efficiently and returns all active usernames.",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {f'user{i}': {'active': i % 2 == 0} for i in range(1000)}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "['user0', 'user2', ..., 'user998']"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_username_types",
+          "name": "test_non_string_usernames",
+          "description": "Handles usernames that are not strings (should include them if marked active).",
+          "type": "edge",
+          "test_setup": {
+            "given": "users = {1: {'active': True}, None: {'active': True}, 'bob': {'active': True}}",
+            "when": "UserManager.get_active_users() is called",
+            "then": "[1, None, 'bob']"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        },
+        {
+          "id": "active_users_mutation_safety",
+          "name": "test_users_dict_not_mutated",
+          "description": "Ensures the users dictionary is not mutated by the function.",
+          "type": "negative",
+          "test_setup": {
+            "given": "users = {'alice': {'active': True}, 'bob': {'active': False}}; original = users.copy()",
+            "when": "UserManager.get_active_users() is called",
+            "then": "users == original"
+          },
+          "implementation_id": "usermanager-get_active_users"
+        }
+      ]
+    },
+    {
+      "implementation_id": "usermanager-get_user",
+      "test_cases": [
+        {
+          "id": "get_user_existing_username",
+          "name": "test_get_user_existing_username",
+          "description": "Retrieves user data for a username that exists in the users dictionary.",
+          "type": "positive",
+          "test_setup": {
+            "given": "A users dictionary containing a user with username 'alice'.",
+            "when": "UserManager.get_user('alice') is called.",
+            "then": "The function returns the user data for 'alice'."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_nonexistent_username",
+          "name": "test_get_user_nonexistent_username",
+          "description": "Attempts to retrieve user data for a username that does not exist in the users dictionary.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A users dictionary without a user named 'bob'.",
+            "when": "UserManager.get_user('bob') is called.",
+            "then": "The function returns None or raises a KeyError, depending on implementation."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_empty_username",
+          "name": "test_get_user_empty_username",
+          "description": "Attempts to retrieve user data with an empty string as the username.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with valid users, but no user with an empty username.",
+            "when": "UserManager.get_user('') is called.",
+            "then": "The function returns None or raises a KeyError, depending on implementation."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_none_username",
+          "name": "test_get_user_none_username",
+          "description": "Attempts to retrieve user data with None as the username.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with valid users.",
+            "when": "UserManager.get_user(None) is called.",
+            "then": "The function raises a TypeError or returns None, depending on implementation."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_username_case_sensitivity",
+          "name": "test_get_user_username_case_sensitivity",
+          "description": "Checks if the function treats usernames as case-sensitive.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with a user 'Alice' but not 'alice'.",
+            "when": "UserManager.get_user('alice') is called.",
+            "then": "The function returns None or raises a KeyError, confirming case sensitivity."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_special_characters_username",
+          "name": "test_get_user_special_characters_username",
+          "description": "Retrieves user data for a username containing special characters.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with a user 'user_123!@#'.",
+            "when": "UserManager.get_user('user_123!@#') is called.",
+            "then": "The function returns the user data for 'user_123!@#'."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_large_users_dict",
+          "name": "test_get_user_large_users_dict",
+          "description": "Retrieves user data from a large users dictionary to test performance and correctness.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with 10,000 users, including 'testuser9999'.",
+            "when": "UserManager.get_user('testuser9999') is called.",
+            "then": "The function returns the user data for 'testuser9999' efficiently."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_username_is_integer",
+          "name": "test_get_user_username_is_integer",
+          "description": "Attempts to retrieve user data using an integer as the username.",
+          "type": "negative",
+          "test_setup": {
+            "given": "A users dictionary with string usernames.",
+            "when": "UserManager.get_user(12345) is called.",
+            "then": "The function raises a TypeError or returns None, depending on implementation."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_username_is_whitespace",
+          "name": "test_get_user_username_is_whitespace",
+          "description": "Attempts to retrieve user data using a whitespace string as the username.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with no user whose username is a whitespace string.",
+            "when": "UserManager.get_user('   ') is called.",
+            "then": "The function returns None or raises a KeyError, depending on implementation."
+          },
+          "implementation_id": "usermanager-get_user"
+        },
+        {
+          "id": "get_user_username_is_long_string",
+          "name": "test_get_user_username_is_long_string",
+          "description": "Attempts to retrieve user data using a very long string as the username.",
+          "type": "edge",
+          "test_setup": {
+            "given": "A users dictionary with no user whose username is a string of 255 'a' characters.",
+            "when": "UserManager.get_user('a' * 255) is called.",
+            "then": "The function returns None or raises a KeyError, depending on implementation."
+          },
+          "implementation_id": "usermanager-get_user"
+        }
+      ]
+    }
+  ],
+  "component": [],
+  "endpoint": []
+}
