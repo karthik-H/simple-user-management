@@ -1,0 +1,92 @@
+{
+  "manage_user_accounts": {
+    "implementation": [
+      {
+        "id": "main_entry_point",
+        "name": "main",
+        "file_path": "main.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Acts as the entry point for the application, orchestrating user account management by calling add_user, update_user_email, and deactivate_user on the UserManager instance.",
+        "pseudo_code": "Initialize UserManager and UserStatistics\nAdd several users with add_user\nDisplay statistics\nDeactivate a user with deactivate_user\nDisplay updated statistics\nUpdate a user's email with update_user_email\nDisplay updated user info"
+      },
+      {
+        "id": "user_manager_add_user",
+        "name": "add_user",
+        "file_path": "user_manager.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Implements adding new users, enforces unique usernames, and validates age range. Directly fulfills the requirement for adding users and validation.",
+        "pseudo_code": "IF username exists in users:\n    RAISE error (duplicate username)\nIF age < 0 OR age > 150:\n    RAISE error (invalid age)\nAdd user to users dictionary with email, age, active=True\nRETURN True"
+      },
+      {
+        "id": "user_manager_update_user_email",
+        "name": "update_user_email",
+        "file_path": "user_manager.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Implements updating a user's email address. Checks if the user exists before updating.",
+        "pseudo_code": "IF username not in users:\n    RAISE error (user not found)\nSet user's email to new_email\nRETURN True"
+      },
+      {
+        "id": "user_manager_deactivate_user",
+        "name": "deactivate_user",
+        "file_path": "user_manager.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Implements deactivating a user account. Checks if the user exists before deactivating.",
+        "pseudo_code": "IF username not in users:\n    RAISE error (user not found)\nSet user's active status to False\nRETURN True"
+      },
+      {
+        "id": "user_manager_get_active_users",
+        "name": "get_active_users",
+        "file_path": "user_manager.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Maintains and retrieves the collection of active users, supporting the requirement to maintain a collection of users.",
+        "pseudo_code": "FOR each username, data in users:\n    IF data['active'] is True:\n        INCLUDE username in result list\nRETURN list of active usernames"
+      }
+    ],
+    "missing_implementations": []
+  },
+  "analyze_user_statistics": {
+    "implementation": [
+      {
+        "id": "main-sequence",
+        "name": "main",
+        "file_path": "main.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Entry point of the application. Initializes UserManager and UserStatistics, adds users, and prints statistics by calling UserStatistics methods.",
+        "pseudo_code": "Initialize UserManager\nInitialize UserStatistics with UserManager\nAdd several users\nPrint average age and age groups using UserStatistics\nDeactivate a user\nPrint updated statistics for active users"
+      },
+      {
+        "id": "userstatistics-get_average_age",
+        "name": "UserStatistics.get_average_age",
+        "file_path": "statistics.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Calculates the average age of active users by retrieving active users from UserManager and averaging their ages.",
+        "pseudo_code": "Get list of active users from UserManager\nIf no active users, return 0\nFor each active user:\n    Retrieve user data\n    Add user's age to total\nReturn total age divided by number of active users"
+      },
+      {
+        "id": "userstatistics-get_user_count_by_age_group",
+        "name": "UserStatistics.get_user_count_by_age_group",
+        "file_path": "statistics.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Categorizes active users into age groups (youth, adult, senior) and counts the number in each group.",
+        "pseudo_code": "Initialize age group counters for youth, adult, senior\nGet list of active users from UserManager\nFor each active user:\n    Retrieve user data\n    If age < 18: increment youth\n    Else if age < 65: increment adult\n    Else: increment senior\nReturn age group counters"
+      },
+      {
+        "id": "usermanager-get_active_users",
+        "name": "UserManager.get_active_users",
+        "file_path": "user_manager.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Returns a list of usernames for all users marked as active. Used by UserStatistics to filter users for statistics.",
+        "pseudo_code": "For each user in users dictionary:\n    If user is active:\n        Add username to list\nReturn list of active usernames"
+      },
+      {
+        "id": "usermanager-get_user",
+        "name": "UserManager.get_user",
+        "file_path": "user_manager.py",
+        "type": "function",
+        "How_is_it_connected_to_implementation": "Retrieves user data by username. Used by UserStatistics to access age and other user info.",
+        "pseudo_code": "Return user data for given username from users dictionary"
+      }
+    ],
+    "missing_implementations": []
+  }
+}
