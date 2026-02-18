@@ -4,8 +4,6 @@ class UserManager:
 
     def add_user(self, username, email, age):
         """Add a new user to the system."""
-        if username in self.users:
-            raise ValueError(f"User {username} already exists")
 
         if age < 0 or age > 150:
             raise ValueError("Invalid age")
